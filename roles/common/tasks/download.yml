@@ -6,7 +6,7 @@
 - name: Create App Location
   ansible.builtin.file:
     path: "{{ APP_LOCATION }}"
-    state: absent
+    state: directory
 
 - name: Download & Extract {{ COMPONENT }} Component Archive
   ansible.builtin.unarchive:
