@@ -1,4 +1,9 @@
-- name: Remove App Code
+- name: Remove App Location
+  ansible.builtin.file:
+    path: "{{ APP_LOCATION }}"
+    state: absent
+
+- name: Create App Location
   ansible.builtin.file:
     path: "{{ APP_LOCATION }}"
     state: absent
