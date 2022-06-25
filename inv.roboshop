@@ -1,6 +1,6 @@
 [FRONTEND]
 frontend.roboshop.internal
-[CARR]
+[CART]
 cart.roboshop.internal
 [CATALOGUE]
 catalogue.roboshop.internal
