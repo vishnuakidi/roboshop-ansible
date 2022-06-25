@@ -1,0 +1,47 @@
+
+#PRINT "Download Schema"
+#curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip" &>>${LOG}
+#CHECK_STAT $?
+#
+#PRINT "Load Schema"
+#cd /tmp && unzip -o mongodb.zip &>>${LOG}  && cd mongodb-main && mongo < catalogue.js &>>${LOG}  && mongo < users.js &>>${LOG}
+#CHECK_STAT $?
+#
+
+- name: Copy MongoDB YUM repo file
+  ansible.builtin.template:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/mongodb.repo
+
+- name: Install MongoDB
+  ansible.builtin.yum:
+    name: mongodb-org
+    state: installed
+
+- name: Replace Listen address in MongoDB Configuration file
+  ansible.builtin.replace:
+    path:  /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: Start MongoDB Service
+  ansible.builtin.systemd:
+    name: mongod
+    enabled: yes
+    state: restarted
+
+- name: Download & Extract {{ COMPONENT }} Component Archive
+  ansible.builtin.unarchive:
+    src: https://github.com/roboshop-devops-project/{{ COMPONENT }}/archive/main.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: Load Schema - Catalogue
+  community.mongodb.mongodb_shell:
+    file: "/tmp/mongodb-main/catalogue.js"
+    idempotent: yes
+
+- name: Load Schema - User
+  community.mongodb.mongodb_shell:
+    file: "/tmp/mongodb-main/users.js"
+    idempotent: yes
