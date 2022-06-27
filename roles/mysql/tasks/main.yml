@@ -61,7 +61,20 @@
     login_password: "{{MYSQL_PASSWORD}}"
     filter: version
   ignore_errors: yes
+  register: mysql_conn
 
+- name: Copy MySQL Reset file
+  ansible.builtin.template:
+    src: root-pass.sql
+    dest: /tmp
+
+- name: Reset the MySQL Root Password
+  community.mysql.mysql_db:
+    state: import
+    name: all
+    target: /tmp/root-pass.sql
+    login_user: root
+    login_password: "{{DEFAULT_PASSWORD}}"
 
 
 
