@@ -46,14 +46,18 @@
     enabled: yes
 
 
-- name: Find out what the remote machine's mounts are
+- name: Fetch MySQL Log File
   ansible.builtin.slurp:
     src: /var/log/mysqld.log
   register: mysql_log
 
+- name: Fetch Password Line from MySQL file
+  ansible.builtin.set_fact:
+    LINE: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') | split(" ")}}"
+
 - name: Print
   debug:
-    msg: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*')| last }}"
+    msg: "{{LINE}}"
 
 
 
