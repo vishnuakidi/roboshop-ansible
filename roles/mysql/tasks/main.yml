@@ -53,7 +53,7 @@
 
 - name: Fetch Password Line from MySQL file
   ansible.builtin.set_fact:
-    LINE: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') | split(" ")}}"
+    LINE: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') | split(' ')}}"
 
 - name: Print
   debug:
