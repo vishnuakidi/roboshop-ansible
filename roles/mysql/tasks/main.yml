@@ -68,6 +68,14 @@
 #    login_user: root
 #    login_password: "{{DEFAULT_PASSWORD}}"
 
+- name: Check Validate Password Plugins
+  ansible.builtin.shell: echo show plugins  | mysql -uroot -p"{{MYSQL_PASSWORD}}" | grep validate_password
+  register: plugin_info
+  ignore_errors: yes
+
+- name: Remove Validate Password Plugin
+  ansible.builtin.shell: echo "uninstall plugin validate_password;" | mysql -uroot -p"{{MYSQL_PASSWORD}}"
+  when: plugin_info is succeeded
 
 
 
