@@ -53,7 +53,7 @@
 
 - name: Print
   debug:
-    msg: "{{mysql_log['content'] | b64decode }}"
+    msg: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') }}"
 
 
 
