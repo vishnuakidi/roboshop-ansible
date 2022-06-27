@@ -1,5 +1,4 @@
 
-#MYSQL_DEFAULT_PASSWORD=$(grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}')
 #
 #echo show databases | mysql -uroot -p"${MYSQL_PASSWORD}" &>>${LOG}
 #if [ $? -ne 0 ]; then
@@ -45,19 +44,21 @@
     state: started
     enabled: yes
 
-
 - name: Fetch MySQL Log File
   ansible.builtin.slurp:
     src: /var/log/mysqld.log
   register: mysql_log
 
-- name: Fetch Password Line from MySQL file
+- name: Fetch Password from MySQL LOG File
   ansible.builtin.set_fact:
-    LINE: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') | join(' ')| split(' ') | last}}"
+    DEFAULT_PASSWORD: "{{mysql_log['content'] | b64decode | regex_findall('.*temporary password.*') | join(' ')| split(' ') | last}}"
 
-- name: Print
-  debug:
-    msg: "{{LINE}}"
+- name: Check MySQL Password has been reset or not
+  community.mysql.mysql_info:
+    login_user: root
+    login_password: "{{MYSQL_PASSWORD}}"
+    filter: version
+
 
 
 
