@@ -60,6 +60,8 @@
     login_user: root
     login_password: "{{MYSQL_PASSWORD}}"
     filter: version
+  ignore_errors: yes
+
 
 
 
