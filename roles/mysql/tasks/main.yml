@@ -1,12 +1,3 @@
-
-#PRINT "Download Schema"
-#curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip" &>>${LOG}
-#CHECK_STAT $?
-#
-#PRINT "Load Schema"
-#cd /tmp && unzip -o mysql.zip &>>${LOG} && cd mysql-main && mysql -u root -p"${MYSQL_PASSWORD}" <shipping.sql &>>${LOG}
-#CHECK_STAT $?
-#
 - name: Fail if the Password MYSQL_PASSWORD does not exist
   ansible.builtin.fail:
     msg: MYSQL_PASSWORD variable is missing.
