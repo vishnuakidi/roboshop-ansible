@@ -1,0 +1,35 @@
+
+#  USER_ID=$(id -u roboshop)
+#  GROUP_ID=$(id -g roboshop)
+#
+#  PRINT "Update ${COMPONENT} Configuration"
+#  sed -i -e "/^uid/ c uid = ${USER_ID}" -e "/^gid/ c gid = ${GROUP_ID}" /home/roboshop/${COMPONENT}/${COMPONENT}.ini
+#  CHECK_STAT $?
+#
+#  SYSTEMD
+#
+
+- name: Install Python
+  ansible.builtin.yum:
+    name:
+      - python36
+      - gcc
+      - python3-devel
+    state: installed
+
+- name: Import Common App Setup Configurations
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: download
+
+- name: Install Python Dependencies
+  ansible.builtin.pip:
+    requirements: /home/roboshop/{{COMPONENT}}/requirements.txt
+    executable: pip3
+
+- name: print
+  debug:
+    msg: "{{app_user}}"
+
+
+
