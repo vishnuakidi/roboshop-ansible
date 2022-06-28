@@ -1,0 +1,65 @@
+- hosts: "{{item.HOST}}"
+  become: yes
+  roles:
+    - "{{item.role}}"
+  loop:
+    - {HOST: "FRONTEND", role: "frontend"}
+    - {HOST: "MONGODB", role: "mongodb"}
+    - {HOST: "CATALOGUE", role: "catalogue"}
+    - {HOST: "REDIS", role: "redis"}
+    - {HOST: "USER", role: "user"}
+    - {HOST: "CART", role: "cart"}
+    - {HOST: "MYSQL", role: "mysql"}
+    - {HOST: "SHIPPING", role: "shipping"}
+    - {HOST: "RABBITMQ", role: "rabbitmq"}
+    - {HOST: "PAYMENT", role: "payment"}
+
+#- hosts: FRONTEND
+#  become: yes
+#  roles:
+#    - "frontend"
+#
+#- hosts: MONGODB
+#  become: yes
+#  roles:
+#    - "mongodb"
+#
+#- hosts: CATALOGUE
+#  become: yes
+#  roles:
+#    - "catalogue"
+#
+#- hosts: REDIS
+#  become: yes
+#  roles:
+#    - "redis"
+#
+#- hosts: USER
+#  become: yes
+#  roles:
+#    - "user"
+#
+#- hosts: CART
+#  become: yes
+#  roles:
+#    - "cart"
+#
+#- hosts: MYSQL
+#  become: yes
+#  roles:
+#    - "mysql"
+#
+#- hosts: SHIPPING
+#  become: yes
+#  roles:
+#    - "shipping"
+#
+#- hosts: RABBITMQ
+#  become: yes
+#  roles:
+#    - "rabbitmq"
+#
+#- hosts: PAYMENT
+#  become: yes
+#  roles:
+#    - "payment"
